@@ -1,0 +1,4 @@
+#ifndef _MOBCAL_READ_COORDS_MASSES_CHARGES_H_
+#define _MOBCAL_READ_COORDS_MASSES_CHARGES_H_ 1
+extern int mobcal_read_coords_masses_charges(struct mobcal_state_struct *state);
+#endif

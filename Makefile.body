@@ -1,0 +1,266 @@
+all: mobcal test_fork mobcal_shm
+
+EXECS = mobcal mobcal_shm
+
+SERIAL_INCS = system_includes.h mobcal_state_struct.h mt_state_struct.h ranlux_state_struct.h mobcal_diffeq_state_struct.h blas.h dgemm_.h lsame.h
+
+test_fork: test_fork.o fork_and_bind.o setup_shm.o attach_shm.o
+	   ${CLINKER} -g -o test_fork test_fork.o fork_and_bind.o setup_shm.o attach_shm.o -lm 
+
+test_fork.o: test_fork.c fork_and_bind.h setup_shm.h attach_shm.h system_includes.h
+	${CC} -c -g -O0 test_fork.c
+	     
+fork_and_bind.o: fork_and_bind.c fork_and_bind.h system_includes.h
+	${CC} -c -g -O0 fork_and_bind.c
+	       
+setup_shm.o: setup_shm.c setup_shm.h system_includes.h
+	${CC} -c -g -O0 setup_shm.c
+
+attach_shm.o: attach_shm.c attach_shm.h system_includes.h
+	${CC} -c -g -O0 attach_shm.c
+
+get_num_threads.o: get_num_threads.c get_num_threads.h ${SERIAL_INCS}
+	${CC} -c ${OPT_FLAGS} get_num_threads.c 
+
+remove_shm.o: remove_shm.c remove_shm.h ${SERIAL_INCS}
+	${CC} -c ${OPT_FLAGS} remove_shm.c 
+	       
+mobcal: mobcal.o mobcal_read_parameters.o mobcal_get_filenames.o mobcal_alloc0.o aligned_calloc.o mobcal_unpack_params.o mobcal_io_init.o mobcal_init_constants_0.o mobcal_ncoord.o mobcal_parse_atomtype_params.o mobcal_read_coords_header.o mobcal_alloc1.o mobcal_read_coords_masses_charges.o mobcal_set_properties.o mobcal_compute_centroid.o mobcal_save_pos.o mobcal_shift_pos.o mobcal_print_centered_coords.o mobcal_struct_asym.o mobcal_print_rotated_coords.o mobcal_init_constants_1.o mobcal_init_rn.o init_genrand64.o mobcal_rluxgo.o mobcal_gen_rn.o genrand64_real3.o genrand64_int64.o mobcal_ranlux.o mobcal_mobil2.o mobcal_x_orient.o mobcal_rotate_phi_gamma.o blas.o dgemm_.o lsame.o mobcal_rmax_emax_r00.o mobcal_dljpot.o mobcal_dljpot_dgt.o mobcal_dljpot_iu.o mobcal_vec_set.o mobcal_dljpot_inner.o mobcal_dljpot_inner_iu.o mobcal_amax.o mobcal_max.o mobcal_dljpot_only.o mobcal_dljpot_only_dgt.o mobcal_dljpot_only_iu.o mobcal_dljpot_only_inner.o mobcal_dljpot_only_inner_iu.o mobcal_init_gst_intgrl.o mobcal_b2max.o mobcal_gsang.o mobcal_diffeq.o mobcal_deriv.o mobcal_mobil2_main.o mobcal_rantate2.o mobcal_rotate.o mobcal_mobil2_main_dbg.o mobcal_mobil2_run_avg.o mobcal_omega_dist.o mobcal_mobil2_result.o mobcal_print_summary.o
+	${CLINKER} -o mobcal mobcal.o mobcal_read_parameters.o mobcal_get_filenames.o mobcal_alloc0.o aligned_calloc.o mobcal_unpack_params.o mobcal_io_init.o mobcal_init_constants_0.o mobcal_ncoord.o mobcal_parse_atomtype_params.o mobcal_read_coords_header.o mobcal_alloc1.o mobcal_read_coords_masses_charges.o mobcal_set_properties.o mobcal_compute_centroid.o mobcal_save_pos.o mobcal_shift_pos.o mobcal_print_centered_coords.o mobcal_struct_asym.o mobcal_print_rotated_coords.o mobcal_init_constants_1.o mobcal_init_rn.o init_genrand64.o mobcal_rluxgo.o mobcal_gen_rn.o genrand64_real3.o genrand64_int64.o mobcal_ranlux.o mobcal_mobil2.o mobcal_x_orient.o mobcal_rotate_phi_gamma.o blas.o dgemm_.o lsame.o mobcal_rmax_emax_r00.o mobcal_dljpot.o mobcal_dljpot_dgt.o mobcal_dljpot_iu.o mobcal_vec_set.o mobcal_dljpot_inner.o mobcal_dljpot_inner_iu.o mobcal_amax.o mobcal_max.o mobcal_dljpot_only.o mobcal_dljpot_only_dgt.o mobcal_dljpot_only_iu.o mobcal_dljpot_only_inner.o mobcal_dljpot_only_inner_iu.o mobcal_init_gst_intgrl.o mobcal_b2max.o mobcal_gsang.o mobcal_diffeq.o mobcal_deriv.o mobcal_mobil2_main.o mobcal_rantate2.o mobcal_rotate.o mobcal_mobil2_main_dbg.o mobcal_mobil2_run_avg.o mobcal_omega_dist.o mobcal_mobil2_result.o mobcal_print_summary.o -lm
+
+
+mobcal.o: mobcal.c ${SERIAL_INCS} mobcal_read_parameters.h mobcal_alloc0.h mobcal_unpack_params.h mobcal_io_init.h mobcal_init_constants_0.h mobcal_ncoord.h mobcal_init_constants_1.h mobcal_xrand.h mobcal_mobil2.h mobcal_print_summary.h
+	${CC} -c ${NOOPT_FLAGS} mobcal.c
+
+mobcal_read_parameters.o: mobcal_read_parameters.c mobcal_read_parameters.h ${SERIAL_INCS} mobcal_get_filenames.h
+	${CC} -c ${NOOPT_FLAGS} mobcal_read_parameters.c
+
+mobcal_get_filenames.o: mobcal_get_filenames.c mobcal_get_filenames.h ${SERIAL_INCS} 
+	${CC} -c ${NOOPT_FLAGS} mobcal_get_filenames.c
+
+mobcal_alloc0.o: mobcal_alloc0.c mobcal_alloc0.h ${SERIAL_INCS} aligned_calloc.h
+	${CC} -c ${OPT_FLAGS} mobcal_alloc0.c
+
+aligned_calloc.o: aligned_calloc.c aligned_calloc.h ${SERIAL_INCS}
+	${CC} -c ${OPT_FLAGS} aligned_calloc.c
+
+mobcal_unpack_params.o: mobcal_unpack_params.c mobcal_unpack_params.h ${SERIAL_INCS} 
+	${CC} -c ${OPT_FLAGS} mobcal_unpack_params.c
+
+
+mobcal_io_init.o: mobcal_io_init.c mobcal_io_init.h ${SERIAL_INCS}
+	${CC} -c ${OPT_FLAGS} mobcal_io_init.c
+
+mobcal_init_constants_0.o: mobcal_init_constants_0.c mobcal_init_constants_0.h ${SERIAL_INCS}
+	${CC} -c ${OPT_FLAGS} mobcal_init_constants_0.c
+
+mobcal_ncoord.o: mobcal_ncoord.c mobcal_ncoord.h ${SERIAL_INCS} mobcal_parse_atomtype_params.h mobcal_read_coords_header.h mobcal_alloc1.h mobcal_read_coords_masses_charges.h mobcal_set_properties.h mobcal_compute_centroid.h mobcal_shift_pos.h mobcal_save_pos.h mobcal_print_centered_coords.h mobcal_struct_asym.h mobcal_print_rotated_coords.h
+
+	${CC} -c ${OPT_FLAGS} mobcal_ncoord.c
+
+mobcal_parse_atomtype_params.o: mobcal_parse_atomtype_params.c mobcal_parse_atomtype_params.h ${SERIAL_INCS}
+	${CC} -c ${OPT_FLAGS} mobcal_parse_atomtype_params.c
+
+mobcal_read_coords_header.o: mobcal_read_coords_header.c mobcal_read_coords_header.h ${SERIAL_INCS}
+	${CC} -c ${OPT_FLAGS} mobcal_read_coords_header.c
+
+mobcal_alloc1.o: mobcal_alloc1.c mobcal_alloc1.h ${SERIAL_INCS} aligned_calloc.h
+	${CC} -c ${OPT_FLAGS} mobcal_alloc1.c
+
+mobcal_read_coords_masses_charges.o: mobcal_read_coords_masses_charges.c mobcal_read_coords_masses_charges.h ${SERIAL_INCS}
+	${CC} -c ${OPT_FLAGS} mobcal_read_coords_masses_charges.c
+
+mobcal_set_properties.o: mobcal_set_properties.c mobcal_set_properties.h ${SERIAL_INCS}
+	${CC} -c ${OPT_FLAGS} mobcal_set_properties.c
+
+mobcal_compute_centroid.o: mobcal_compute_centroid.c mobcal_compute_centroid.h ${SERIAL_INCS}
+	${CC} -c ${OPT_FLAGS} mobcal_compute_centroid.c
+
+mobcal_save_pos.o: mobcal_save_pos.c mobcal_save_pos.h ${SERIAL_INCS}
+	${CC} -c ${OPT_FLAGS} mobcal_save_pos.c
+
+mobcal_shift_pos.o: mobcal_shift_pos.c mobcal_shift_pos.h ${SERIAL_INCS}
+	${CC} -c ${OPT_FLAGS} mobcal_shift_pos.c
+
+mobcal_print_centered_coords.o: mobcal_print_centered_coords.c mobcal_print_centered_coords.h ${SERIAL_INCS}
+	${CC} -c ${OPT_FLAGS} mobcal_print_centered_coords.c
+
+mobcal_struct_asym.o: mobcal_struct_asym.c mobcal_struct_asym.h ${SERIAL_INCS} mobcal_print_rotated_coords.h
+	${CC} -c ${OPT_FLAGS} mobcal_struct_asym.c 
+
+mobcal_print_rotated_coords.o: mobcal_print_rotated_coords.c mobcal_print_rotated_coords.h ${SERIAL_INCS}
+	${CC} -c ${OPT_FLAGS} mobcal_print_rotated_coords.c
+
+mobcal_init_constants_1.o: mobcal_init_constants_1.c mobcal_init_constants_1.h ${SERIAL_INCS} mobcal_init_rn.h mobcal_gen_rn.h
+	${CC} -c ${OPT_FLAGS} mobcal_init_constants_1.c
+
+mobcal_init_rn.o: mobcal_init_rn.c mobcal_init_rn.h ${SERIAL_INCS} init_genrand64.h mobcal_rluxgo.h
+	${CC} -c ${OPT_FLAGS} mobcal_init_rn.c
+
+init_genrand64.o: init_genrand64.c init_genrand64.h ${SERIAL_INCS} 
+	${CC} -c ${OPT_FLAGS} init_genrand64.c
+
+mobcal_rluxgo.o: mobcal_rluxgo.c mobcal_rluxgo.h ${SERIAL_INCS}
+	${CC} -c ${OPT_FLAGS} mobcal_rluxgo.c
+
+mobcal_gen_rn.o: mobcal_gen_rn.c mobcal_gen_rn.h ${SERIAL_INCS} genrand64_real3.h mobcal_ranlux.h
+	${CC} -c ${OPT_FLAGS} mobcal_gen_rn.c
+
+genrand64_real3.o: genrand64_real3.c genrand64_real3.h ${SERIAL_INCS} genrand64_int64.h
+	${CC} -c ${OPT_FLAGS} genrand64_real3.c
+
+genrand64_int64.o: genrand64_int64.c genrand64_int64.h ${SERIAL_INCS} 
+	${CC} -c ${OPT_FLAGS} genrand64_int64.c
+
+mobcal_ranlux.o: mobcal_ranlux.c mobcal_ranlux.h ${SERIAL_INCS} mobcal_rluxgo.h
+	${CC} -c ${OPT_FLAGS} mobcal_ranlux.c
+
+mobcal_mobil2.o: mobcal_mobil2.c mobcal_mobil2.h ${SERIAL_INCS} mobcal_x_orient.h mobcal_rmax_emax_r00.h mobcal_init_gst_intgrl.h mobcal_b2max.h mobcal_mobil2_main.h mobcal_mobil2_main_dbg.h mobcal_mobil2_run_avg.h mobcal_omega_dist.h mobcal_mobil2_result.h
+	${CC} -c ${OPT_FLAGS} mobcal_mobil2.c
+
+mobcal_x_orient.o: mobcal_x_orient.c mobcal_x_orient.h ${SERIAL_INCS} mobcal_rotate_phi_gamma.h
+	${CC} -c ${OPT_FLAGS} mobcal_x_orient.c
+
+mobcal_rotate_phi_gamma.o: mobcal_rotate_phi_gamma.c mobcal_rotate_phi_gamma.h ${SERIAL_INCS} 
+	${CC} -c ${OPT_FLAGS} mobcal_rotate_phi_gamma.c
+
+		   
+blas.o: blas.c blas.h ${SERIAL_INCS} 
+	${CC} -c ${OPT_FLAGS} blas.c
+	
+dgemm_.o: dgemm_.c dgemm_.h ${SERIAL_INCS} 
+	${CC} -c ${OPT_FLAGS} dgemm_.c
+	
+lsame.o: lsame.c lsame.h ${SERIAL_INCS} 
+	${CC} -c ${OPT_FLAGS} lsame.c
+	
+
+mobcal_rmax_emax_r00.o: mobcal_rmax_emax_r00.c mobcal_rmax_emax_r00.h ${SERIAL_INCS} mobcal_dljpot_only.h
+	${CC} -c ${OPT_FLAGS} mobcal_rmax_emax_r00.c
+
+mobcal_dljpot.o: mobcal_dljpot.c mobcal_dljpot.h ${SERIAL_INCS}	mobcal_dljpot_dgt.h mobcal_dljpot_iu.h
+	${CC} -c ${OPT_FLAGS} mobcal_dljpot.c
+
+mobcal_dljpot_dgt.o: mobcal_dljpot_dgt.c mobcal_dljpot_dgt.h ${SERIAL_INCS} mobcal_vec_set.h mobcal_dljpot_inner.h mobcal_max.h mobcal_amax.h
+	${CC} -c ${OPT_FLAGS} mobcal_dljpot_dgt.c
+
+mobcal_dljpot_iu.o: mobcal_dljpot_iu.c mobcal_dljpot_iu.h ${SERIAL_INCS} mobcal_vec_set.h mobcal_dljpot_inner_iu.h mobcal_max.h mobcal_amax.h
+	${CC} -c ${OPT_FLAGS} mobcal_dljpot_iu.c
+
+mobcal_vec_set.o: mobcal_vec_set.c mobcal_vec_set.h ${SERIAL_INCS} 
+	${CC} -c ${OPT_FLAGS} mobcal_vec_set.c
+
+mobcal_dljpot_inner.o: mobcal_dljpot_inner.c mobcal_dljpot_inner.h ${SERIAL_INCS}
+	${CC} -c ${OPT_FLAGS} mobcal_dljpot_inner.c
+
+mobcal_dljpot_inner_iu.o: mobcal_dljpot_inner_iu.c mobcal_dljpot_inner_iu.h ${SERIAL_INCS}
+	${CC} -c ${OPT_FLAGS} mobcal_dljpot_inner_iu.c
+
+mobcal_max.o: mobcal_max.c mobcal_max.h ${SERIAL_INCS}
+	${CC} -c ${OPT_FLAGS} mobcal_max.c
+
+mobcal_amax.o: mobcal_amax.c mobcal_amax.h ${SERIAL_INCS}
+	${CC} -c ${OPT_FLAGS} mobcal_amax.c
+
+mobcal_dljpot_only.o: mobcal_dljpot_only.c mobcal_dljpot_only.h ${SERIAL_INCS} mobcal_dljpot_only_dgt.h mobcal_dljpot_only_iu.h	
+	${CC} -c ${OPT_FLAGS} mobcal_dljpot_only.c
+
+mobcal_dljpot_only_dgt.o: mobcal_dljpot_only_dgt.c mobcal_dljpot_only_dgt.h ${SERIAL_INCS} mobcal_dljpot_only_inner.h	
+	${CC} -c ${OPT_FLAGS} mobcal_dljpot_only_dgt.c
+
+mobcal_dljpot_only_iu.o: mobcal_dljpot_only_iu.c mobcal_dljpot_only_iu.h ${SERIAL_INCS} mobcal_dljpot_only_inner_iu.h	
+	${CC} -c ${OPT_FLAGS} mobcal_dljpot_only_iu.c
+
+mobcal_dljpot_only_inner.o: mobcal_dljpot_only_inner.c mobcal_dljpot_only_inner.h ${SERIAL_INCS} 
+	${CC} -c ${OPT_FLAGS} mobcal_dljpot_only_inner.c
+
+mobcal_dljpot_only_inner_iu.o: mobcal_dljpot_only_inner_iu.c mobcal_dljpot_only_inner_iu.h ${SERIAL_INCS} 
+	${CC} -c ${OPT_FLAGS} mobcal_dljpot_only_inner_iu.c
+
+mobcal_init_gst_intgrl.o: mobcal_init_gst_intgrl.c mobcal_init_gst_intgrl.h ${SERIAL_INCS} 
+	${CC} -c ${OPT_FLAGS} mobcal_init_gst_intgrl.c
+
+mobcal_b2max.o: mobcal_b2max.c mobcal_b2max.h ${SERIAL_INCS} mobcal_gsang.h
+	${CC} -c ${OPT_FLAGS} mobcal_b2max.c
+
+mobcal_gsang.o: mobcal_gsang.c mobcal_gsang.h ${SERIAL_INCS} mobcal_dljpot_only.h mobcal_diffeq.h mobcal_deriv.h
+	${CC} -c ${OPT_FLAGS} mobcal_gsang.c
+
+mobcal_diffeq.o: mobcal_diffeq.c mobcal_diffeq.h ${SERIAL_INCS} mobcal_deriv.h
+	${CC} -c ${OPT_FLAGS} mobcal_diffeq.c
+
+mobcal_deriv.o: mobcal_deriv.c mobcal_deriv.h ${SERIAL_INCS} mobcal_dljpot.h
+	${CC} -c ${OPT_FLAGS} mobcal_deriv.c
+
+#mobcal_dljpot_and_dmax.o: mobcal_dljpot_and_dmax.c mobcal_dljpot_and_dmax.h ${SERIAL_INCS} mobcal_dljpot_and_dmax_inner.h
+#	${CC} -c ${OPT_FLAGS} mobcal_dljpot_and_dmax.c
+
+#mobcal_dljpot_and_dmax_inner.o: mobcal_dljpot_and_dmax_inner.c mobcal_dljpot_and_dmax_inner.h ${SERIAL_INCS} 
+#	${CC} -c ${OPT_FLAGS} mobcal_dljpot_and_dmax_inner.c
+
+mobcal_mobil2_main.o: mobcal_mobil2_main.c mobcal_mobil2_main.h ${SERIAL_INCS} mobcal_rantate2.h mobcal_gsang.h
+	${CC} -c ${OPT_FLAGS} mobcal_mobil2_main.c
+
+mobcal_rantate.o: mobcal_rantate.c mobcal_rantate.h ${SERIAL_INCS} mobcal_xrand.h mobcal_rotate.h
+	${CC} -c ${OPT_FLAGS} mobcal_rantate.c
+
+mobcal_rantate2.o: mobcal_rantate2.c mobcal_rantate2.h ${SERIAL_INCS} mobcal_rotate.h
+	${CC} -c ${OPT_FLAGS} mobcal_rantate2.c
+
+#mobcal_xrand.o: mobcal_xrand.c mobcal_xrand.h ${SERIAL_INCS} mobcal_ranlux.h
+#	${CC} -c ${OPT_FLAGS} mobcal_xrand.c
+
+mobcal_rotate.o: mobcal_rotate.c mobcal_rotate.h ${SERIAL_INCS} mobcal_print_rotated_coords.h
+	${CC} -c ${OPT_FLAGS} mobcal_rotate.c
+	
+mobcal_mobil2_main_dbg.o: mobcal_mobil2_main_dbg.c mobcal_mobil2_main_dbg.h ${SERIAL_INCS} mobcal_rantate.h mobcal_gsang.h
+	${CC} -c ${OPT_FLAGS} mobcal_mobil2_main_dbg.c
+
+mobcal_mobil2_run_avg.o: mobcal_mobil2_run_avg.c mobcal_mobil2_run_avg.h ${SERIAL_INCS}
+	${CC} -c ${OPT_FLAGS} mobcal_mobil2_run_avg.c
+		  
+mobcal_omega_dist.o: mobcal_omega_dist.c mobcal_omega_dist.h ${SERIAL_INCS}
+	${CC} -c ${OPT_FLAGS} mobcal_omega_dist.c
+
+mobcal_mobil2_result.o: mobcal_mobil2_result.c mobcal_mobil2_result.h ${SERIAL_INCS}
+	${CC} -c ${OPT_FLAGS} mobcal_mobil2_result.c
+
+mobcal_print_summary.o: mobcal_print_summary.c mobcal_print_summary.h ${SERIAL_INCS}
+	${CC} -c ${OPT_FLAGS} mobcal_print_summary.c
+
+
+mobcal_shm: mobcal_shm.o mobcal_read_parameters.o mobcal_get_filenames.o get_num_threads.o mobcal_shm_block_size.o setup_shm.o fork_and_bind.o remove_shm.o mobcal_shm_main.o mobcal_alloc0.o mobcal_unpack_params.o attach_shm.o aligned_calloc.o mobcal_io_init.o mobcal_init_constants_0.o mobcal_ncoord.o mobcal_parse_atomtype_params.o mobcal_read_coords_header.o mobcal_alloc1.o mobcal_read_coords_masses_charges.o mobcal_set_properties.o mobcal_compute_centroid.o mobcal_save_pos.o mobcal_shift_pos.o mobcal_print_centered_coords.o mobcal_struct_asym.o mobcal_print_rotated_coords.o mobcal_init_constants_1.o mobcal_init_rn.o init_genrand64.o mobcal_rluxgo.o mobcal_gen_rn.o genrand64_real3.o genrand64_int64.o mobcal_ranlux.o mobcal_shm_mobil2.o mobcal_mobil2_server.o mobcal_acc_temps.o mobcal_mobil2_client.o mobcal_mobil2_client_dbg.o mobcal_x_orient.o mobcal_rotate_phi_gamma.o blas.o dgemm_.o lsame.o mobcal_rmax_emax_r00.o mobcal_dljpot.o mobcal_dljpot_dgt.o mobcal_dljpot_iu.o mobcal_vec_set.o mobcal_dljpot_inner.o mobcal_dljpot_inner_iu.o mobcal_amax.o mobcal_max.o mobcal_dljpot_only.o mobcal_dljpot_only_dgt.o mobcal_dljpot_only_iu.o mobcal_dljpot_only_inner.o mobcal_dljpot_only_inner_iu.o mobcal_init_gst_intgrl.o mobcal_b2max.o mobcal_gsang.o mobcal_diffeq.o mobcal_deriv.o mobcal_rantate2.o mobcal_rotate.o mobcal_mobil2_run_avg.o mobcal_omega_dist.o mobcal_mobil2_result.o mobcal_print_summary.o
+	${CLINKER} -o mobcal_shm mobcal_shm.o mobcal_read_parameters.o mobcal_get_filenames.o get_num_threads.o mobcal_shm_block_size.o setup_shm.o fork_and_bind.o remove_shm.o mobcal_shm_main.o attach_shm.o mobcal_alloc0.o aligned_calloc.o mobcal_unpack_params.o mobcal_io_init.o mobcal_init_constants_0.o mobcal_ncoord.o mobcal_parse_atomtype_params.o mobcal_read_coords_header.o mobcal_alloc1.o mobcal_read_coords_masses_charges.o mobcal_set_properties.o mobcal_compute_centroid.o mobcal_save_pos.o mobcal_shift_pos.o mobcal_print_centered_coords.o mobcal_struct_asym.o mobcal_print_rotated_coords.o mobcal_init_constants_1.o mobcal_init_rn.o init_genrand64.o mobcal_rluxgo.o mobcal_gen_rn.o genrand64_real3.o genrand64_int64.o mobcal_ranlux.o mobcal_shm_mobil2.o mobcal_mobil2_server.o mobcal_acc_temps.o mobcal_mobil2_client.o mobcal_mobil2_client_dbg.o mobcal_x_orient.o mobcal_rotate_phi_gamma.o blas.o dgemm_.o lsame.o mobcal_rmax_emax_r00.o mobcal_dljpot.o mobcal_dljpot_dgt.o mobcal_dljpot_iu.o mobcal_vec_set.o mobcal_dljpot_inner.o mobcal_dljpot_inner_iu.o mobcal_amax.o mobcal_max.o mobcal_dljpot_only.o mobcal_dljpot_only_dgt.o mobcal_dljpot_only_iu.o mobcal_dljpot_only_inner.o mobcal_dljpot_only_inner_iu.o mobcal_init_gst_intgrl.o mobcal_b2max.o mobcal_gsang.o mobcal_diffeq.o mobcal_deriv.o mobcal_rantate2.o mobcal_rotate.o mobcal_mobil2_run_avg.o mobcal_omega_dist.o mobcal_mobil2_result.o mobcal_print_summary.o -lm
+
+mobcal_shm.o: mobcal_shm.c ${SERIAL_INCS} mobcal_read_parameters.h get_num_threads.h mobcal_shm_block_size.h fork_and_bind.h setup_shm.h mobcal_shm_main.h remove_shm.h
+	${CC} -c ${OPT_FLAGS} mobcal_shm.c
+
+#mobcal_shm_read_parameters.o: mobcal_shm_read_parameters.c mobcal_shm_read_parameters.h ${SERIAL_INCS}
+#	${CC} -c ${OPT_FLAGS} mobcal_shm_read_parameters.c
+
+mobcal_shm_block_size.o: mobcal_shm_block_size.c mobcal_shm_block_size.h ${SERIAL_INCS}
+	${CC} -c ${OPT_FLAGS} mobcal_shm_block_size.c
+
+mobcal_shm_main.o: mobcal_shm_main.c mobcal_shm_main.h ${SERIAL_INCS} mobcal_alloc0.h mobcal_unpack_params.h attach_shm.h mobcal_io_init.h mobcal_init_constants_0.h mobcal_ncoord.h mobcal_init_constants_1.h mobcal_shm_mobil2.h mobcal_print_summary.h mobcal_shm_main.h
+	${CC} -c ${OPT_FLAGS} mobcal_shm_main.c 
+
+mobcal_shm_mobil2.o: mobcal_shm_mobil2.c mobcal_shm_mobil2.h ${SERIAL_INCS} mobcal_x_orient.h mobcal_rmax_emax_r00.h mobcal_init_gst_intgrl.h mobcal_b2max.h mobcal_mobil2_server.h mobcal_mobil2_client_dbg.h mobcal_mobil2_client.h mobcal_mobil2_run_avg.h mobcal_omega_dist.h mobcal_mobil2_result.h
+	${CC} -c ${OPT_FLAGS} mobcal_shm_mobil2.c 
+
+
+mobcal_mobil2_server.o: mobcal_mobil2_server.c mobcal_mobil2_server.h ${SERIAL_INCS} mobcal_acc_temps.h mobcal_vec_set.h
+	${CC} -c ${OPT_FLAGS} mobcal_mobil2_server.c 
+
+mobcal_acc_temps.o: mobcal_acc_temps.c mobcal_acc_temps.h ${SERIAL_INCS}
+	${CC} -c ${NOOPT_FLAGS} mobcal_acc_temps.c 
+
+mobcal_mobil2_client.o: mobcal_mobil2_client.c mobcal_mobil2_client.h ${SERIAL_INCS} mobcal_rantate2.h mobcal_gsang.h mobcal_vec_set.h mobcal_acc_temps.h
+	${CC} -c ${OPT_FLAGS} mobcal_mobil2_client.c 
+
+mobcal_mobil2_client_dbg.o: mobcal_mobil2_client_dbg.c mobcal_mobil2_client_dbg.h ${SERIAL_INCS} mobcal_rantate2.h mobcal_gsang.h mobcal_vec_set.h mobcal_acc_temps.h
+	${CC} -c ${OPT_FLAGS} mobcal_mobil2_client_dbg.c 
+
+clean:
+	/bin/rm -f *.o
+	/bin/rm -f mobcal
+	/bin/rm -f mobcal_shm

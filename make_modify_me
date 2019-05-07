@@ -1,0 +1,10 @@
+CC = gcc
+CLINKER = gcc
+AR = ar
+ARFLAGS = -crv
+#OPT_FLAGS = -O3 -fno-fnalias -xAVX -ipo -Wall
+OPT_FLAGS = -O3 -Wall
+NOOPT_FLAGS = -O0 -Wall
+#OPT_FLAGS = -O0 -g -Wall
+CFLAGS = -O0 -g -Wall
+LFLAGS = -lm
