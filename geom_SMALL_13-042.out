@@ -1,0 +1,59 @@
+input file name = geom_SMALL_13-042.mfj
+input file label = geom_SMALL_13-042
+number of coordinate sets = 1
+number of atoms = 62
+coordinates in angstroms
+total charge = 9.900000e-01
+total absolute charge = 1.265000e+01
+mass of ion = 5.394320e+02
+center of mass_coordinates = -1.327122e-02, 1.820302e-03, -2.181796e-03
+mobcal_ranlux luxury level set by mobcal_rluxgo : 3     p= 223
+
+mobcal_ranlux initialized by mobcal_rluxgo from seeds 5013489  0  0
+Lennard-Jones scaling parameters: eo= 1.340000e-03 ro=3.043000e+00
+dipole constant =1.972553e-58
+mobility constant = 3.586869e-21
+temperature = 0.000000e+00
+
+using RANLUX with seed = 5013489
+
+structural asymmetry parameter = 1.276722e+00
+
+mobility calcuation by MOBIL2 (trajectory method)
+global tractiory parameters
+ sw1 = 5.000000e-05       sw2 = 5.000000e-03
+ dtsf1 = 5.000000e-01     dtsf2 = 1.000000e-01
+ inwr  = 1              ifail = 100
+hold  = 1.000000e+00, gamma = 4.214456e+00
+theta = 0.000000e+00, phi   = 2.994401e+00
+along x axis emax = -2.347600e-02 eV, rmax = 1.169170e+01A, r00  = 1.132712e+01A
+along y axis emax = -2.645385e-02 eV, rmax = 8.938496e+00A, r00 = 8.498486e+00A
+along z axis emax = -4.315977e-02 eV, rmax = 5.091548e+00A, r00 = 4.777255e+00A
+ t*= 1.929265e+01
+temp = 3.000000e+02
+ setup gst integeration - integration over velocity
+     pgst        wgst         v         ke/kt       gst^5*     frac of
+                                              exp(gst*2/tst)     sum
+3.596925e+00 6.132712e-02 3.544379e+02 6.706111e-01 3.079032e+02 3.066392e-02
+4.659019e+00 8.672964e-02 4.590957e+02 1.125115e+00 7.125923e+02 1.046930e-01
+5.450128e+00 1.062217e-01 5.370509e+02 1.539648e+00 1.031271e+03 2.011694e-01
+6.167274e+00 1.226542e-01 6.077179e+02 1.971490e+00 1.242393e+03 3.156072e-01
+6.887029e+00 1.371316e-01 6.786420e+02 2.458510e+00 1.325692e+03 4.455006e-01
+7.678072e+00 1.502201e-01 7.565907e+02 3.055712e+00 1.256557e+03 5.891752e-01
+8.663635e+00 1.622563e-01 8.537071e+02 3.890525e+00 9.973943e+02 7.454130e-01
+1.032609e+01 1.734593e-01 1.017524e+03 5.526874e+00 4.670764e+02 9.132706e-01
+ set up b2 integration - integration over impact parameter
+ Minium value of (1-cosx) = 5.000000e-04
+     gst           b2max/ro2         b/A
+3.596925e+00 3.700000e+01 1.850985e+01
+4.659019e+00 3.220000e+01 1.726752e+01
+5.450128e+00 2.980000e+01 1.661155e+01
+6.167274e+00 2.820000e+01 1.615945e+01
+6.887029e+00 2.680000e+01 1.575322e+01
+7.678072e+00 2.560000e+01 1.539650e+01
+8.663635e+00 2.440000e+01 1.503131e+01
+1.032609e+01 2.280000e+01 1.453013e+01
+number of complete cycles (itn) = 10
+number of velocity points (inp) = 8
+number of random points (imp) = 128
+total number of random points = 10240
