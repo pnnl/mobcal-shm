@@ -1,6 +1,6 @@
-all: mobcal test_fork mobcal_shm
+all: mobcal_shm
 
-EXECS = mobcal mobcal_shm
+EXECS = mobcal_shm
 
 SERIAL_INCS = system_includes.h mobcal_state_struct.h mt_state_struct.h ranlux_state_struct.h mobcal_diffeq_state_struct.h blas.h dgemm_.h lsame.h
 
@@ -153,8 +153,15 @@ mobcal_vec_set.o: mobcal_vec_set.c mobcal_vec_set.h ${SERIAL_INCS}
 mobcal_dljpot_inner.o: mobcal_dljpot_inner.c mobcal_dljpot_inner.h ${SERIAL_INCS}
 	${CC} -c ${OPT_FLAGS} mobcal_dljpot_inner.c
 
+mobcal_dljpot_inner.s: mobcal_dljpot_inner.c mobcal_dljpot_inner.h ${SERIAL_INCS}
+	${CC} -S ${OPT_FLAGS} mobcal_dljpot_inner.c
+
+
 mobcal_dljpot_inner_iu.o: mobcal_dljpot_inner_iu.c mobcal_dljpot_inner_iu.h ${SERIAL_INCS}
 	${CC} -c ${OPT_FLAGS} mobcal_dljpot_inner_iu.c
+
+mobcal_dljpot_inner_iu.s: mobcal_dljpot_inner_iu.c mobcal_dljpot_inner_iu.h ${SERIAL_INCS}
+	${CC} -S ${OPT_FLAGS} mobcal_dljpot_inner_iu.c
 
 mobcal_max.o: mobcal_max.c mobcal_max.h ${SERIAL_INCS}
 	${CC} -c ${OPT_FLAGS} mobcal_max.c
@@ -174,8 +181,14 @@ mobcal_dljpot_only_iu.o: mobcal_dljpot_only_iu.c mobcal_dljpot_only_iu.h ${SERIA
 mobcal_dljpot_only_inner.o: mobcal_dljpot_only_inner.c mobcal_dljpot_only_inner.h ${SERIAL_INCS} 
 	${CC} -c ${OPT_FLAGS} mobcal_dljpot_only_inner.c
 
+mobcal_dljpot_only_inner.s: mobcal_dljpot_only_inner.c mobcal_dljpot_only_inner.h ${SERIAL_INCS} 
+	${CC} -S ${OPT_FLAGS} mobcal_dljpot_only_inner.c
+
 mobcal_dljpot_only_inner_iu.o: mobcal_dljpot_only_inner_iu.c mobcal_dljpot_only_inner_iu.h ${SERIAL_INCS} 
 	${CC} -c ${OPT_FLAGS} mobcal_dljpot_only_inner_iu.c
+
+mobcal_dljpot_only_inner_iu.s: mobcal_dljpot_only_inner_iu.c mobcal_dljpot_only_inner_iu.h ${SERIAL_INCS} 
+	${CC} -S ${OPT_FLAGS} mobcal_dljpot_only_inner_iu.c
 
 mobcal_init_gst_intgrl.o: mobcal_init_gst_intgrl.c mobcal_init_gst_intgrl.h ${SERIAL_INCS} 
 	${CC} -c ${OPT_FLAGS} mobcal_init_gst_intgrl.c

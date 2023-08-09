@@ -1,10 +1,11 @@
-CC = gcc
-CLINKER = gcc
+CC = icc
+CLINKER = icc
 AR = ar
 ARFLAGS = -crv
-#OPT_FLAGS = -O3 -fno-fnalias -xAVX -ipo -Wall
-OPT_FLAGS = -O3 -Wall
-NOOPT_FLAGS = -O0 -Wall
+OPT_FLAGS = -O3 -fno-fnalias -march=native -fma -Wall
+#OPT_FLAGS = -O3 -Wall
 #OPT_FLAGS = -O0 -g -Wall
-CFLAGS = -O0 -g -Wall
+NOOPT_FLAGS = -O0  -Wall
+#OPT_FLAGS = -O0 -g -Wall
+CFLAGS = OPT_FLAGS
 LFLAGS = -lm

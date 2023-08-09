@@ -1,0 +1,9 @@
+package:
+  name: mobcal-shm
+  version: 1.0
+
+source:
+  path: ..
+
+build:
+  number: 0
